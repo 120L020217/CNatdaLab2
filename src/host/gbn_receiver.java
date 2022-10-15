@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.*;
 
 /**
- * @author: 120L020217崔家铭
+ * @author: coldcodacode
  * @description:
  * @date: 2022-10-14 11:45
  */
@@ -38,7 +38,7 @@ public class gbn_receiver extends myhost implements receiver {
      * @Description:
      * @Param: []
      * @return: 接受到数据返回ack, 否则返回-1
-     * @Author: 120L020217崔家铭
+     * @Author: coldcodacode
      * @Date: 2022-10-15
      */
     public int recvData() throws IOException {
@@ -69,7 +69,7 @@ public class gbn_receiver extends myhost implements receiver {
     * @Description:
     * @Param: [ack]
     * @return: void
-    * @Author: 120L020217崔家铭
+    * @Author: coldcodacode
     * @Date: 2022-10-15
     */
     public void sendACK(int ack) throws IOException {
