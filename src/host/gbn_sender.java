@@ -27,13 +27,17 @@ public class gbn_sender extends myhost implements sender {
     // TODO 构造器参数是this
     private final GBNTimer timer = new GBNTimer(timerMoudle, this);
 
+    private final String str;
 
-    public gbn_sender(String name, int n, int timeLimit, int seq_num, int chunk_num) throws SocketException {
+
+    public gbn_sender(String str, String name, int n, int timeLimit, int seq_num, int chunk_num) throws SocketException {
         super(new DatagramSocket(), name);
         N = n;
         TimeLimit = timeLimit;
         Seq_num = seq_num;
         this.chunk_num = chunk_num;
+
+        this.str= str;
     }
 
     public void send() throws IOException {
@@ -60,7 +64,11 @@ public class gbn_sender extends myhost implements sender {
             step = (step>=0)?step:step + Seq_num;
             for (int i = 0; i < step; i++) {
                 String resendData = getHostName()
-                        + ": Resending to port " + destPort + ", Seq = " + (base + i) % Seq_num;
+                        + ": Resending to port " + destPort + ", Seq = " + (base + i) % Seq_num + " ";
+
+                if (str != null){
+                    resendData = resendData + " " + str.substring(((base + i) % Seq_num) * 5, ((base + i) % Seq_num) * 5 + 5);
+                }
 
                 byte[] data = resendData.getBytes();
                 DatagramPacket datagramPacket = new DatagramPacket(data,
@@ -91,7 +99,12 @@ public class gbn_sender extends myhost implements sender {
             else {
                 // 发送报文
                 String sendData = getHostName()
-                        + ": Sending to port " + destPort + ", Seq = " + nextSeq;
+                        + ": Sending to port " + destPort + ", Seq = " + nextSeq + " ";
+
+                if (str != null){
+                    sendData = sendData + " " + str.substring(nextSeq * 5, nextSeq * 5 + 5);
+                }
+
                 byte[] data = sendData.getBytes();
                 DatagramPacket datagramPacket = new DatagramPacket(data,
                         data.length, destAddress, destPort);

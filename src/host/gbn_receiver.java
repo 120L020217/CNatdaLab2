@@ -58,7 +58,7 @@ public class gbn_receiver extends myhost implements receiver {
         String fromServer = new String(datagramPacket.getData(), 0, datagramPacket.getLength());
         // TODO 观察接受端如何返回ACK 假设收到的是最新数据报 同时影响sent_num的计数
         System.out.println(getHostName() + "收到报文: \n=========\n" + fromServer + "\n=========");
-        int ack = Integer.parseInt(fromServer.substring(fromServer.indexOf("Seq = ") + 6).trim());
+        int ack = Integer.parseInt((fromServer.substring(fromServer.indexOf("Seq = ") + 6).trim().split(" "))[0]);
         retAddress = datagramPacket.getAddress();
         retPort = datagramPacket.getPort();
         return ack;

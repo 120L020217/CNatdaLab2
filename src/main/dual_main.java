@@ -3,10 +3,13 @@ package main;
 import host.gbn_receiver;
 import host.gbn_sender;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author: coldcodacode
@@ -15,12 +18,12 @@ import java.net.UnknownHostException;
  */
 public class dual_main {
     public static void main(String[] args) throws SocketException, UnknownHostException {
-        gbn_sender clientSender = new gbn_sender("clientSender", 8, 3, 16, 30);
+        gbn_sender clientSender = new gbn_sender(null, "clientSender", 8, 3, 16, 30);
         clientSender.setDestAddress(InetAddress.getLocalHost()); // 服务器主机地址
         clientSender.setDestPort(10240);
         gbn_receiver serverReceiver = new gbn_receiver("serverReceiver", 10240, 8, 16);
 
-        gbn_sender serverSender = new gbn_sender("serverSender", 8, 3, 16, 50);
+        gbn_sender serverSender = new gbn_sender(null, "serverSender", 8, 3, 16, 50);
         serverSender.setDestAddress(InetAddress.getLocalHost()); // 客户端主机地址
         serverSender.setDestPort(20480);
         gbn_receiver clientReceiver = new gbn_receiver("clientReceiver", 20480, 8, 16);
