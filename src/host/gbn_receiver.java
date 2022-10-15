@@ -45,7 +45,7 @@ public class gbn_receiver extends myhost implements receiver {
         // 收报文
         byte[] bytes = new byte[4096]; // 4k 数据
         DatagramPacket datagramPacket = new DatagramPacket(bytes, bytes.length);
-        socket.setSoTimeout(5000);
+        socket.setSoTimeout(10000);
         try {
             socket.receive(datagramPacket);
         } catch (SocketTimeoutException ex) {
@@ -79,7 +79,7 @@ public class gbn_receiver extends myhost implements receiver {
             System.out.println(getHostName() + "期待报文" + expSeq);
             if (ack == expSeq) { // 预期报文
                 // 模拟丢包
-                if (ack % 27 == 0){ // 丢包率: 1 / 7
+                if (ack % 7 == 0){ // 丢包率: 1 / 7
                     ;
                 }
                 else{

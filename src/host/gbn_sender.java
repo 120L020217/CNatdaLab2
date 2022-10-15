@@ -54,12 +54,13 @@ public class gbn_sender extends myhost implements sender {
         System.out.println(getHostName() + "所有分组接收完毕, " + getHostName() +"发送端关闭");
     }
 
-    @Override
     public void timeOut() throws IOException {
         synchronized (this) {
-            for (int i = base; i < nextSeq; i++) {
+            int step = nextSeq - base;
+            step = (step>=0)?step:step + Seq_num;
+            for (int i = 0; i < step; i++) {
                 String resendData = getHostName()
-                        + ": Resending to port " + destPort + ", Seq = " + i;
+                        + ": Resending to port " + destPort + ", Seq = " + (base + i) % Seq_num;
 
                 byte[] data = resendData.getBytes();
                 DatagramPacket datagramPacket = new DatagramPacket(data,
@@ -67,7 +68,7 @@ public class gbn_sender extends myhost implements sender {
                 socket.send(datagramPacket);
 
                 System.out.println(getHostName()
-                        + "重新发送发送到" + destPort + "端口， Seq = " + i);
+                        + "重新发送发送到" + destPort + "端口， Seq = " + (base + i) % Seq_num);
             }
         }
     }
@@ -84,7 +85,7 @@ public class gbn_sender extends myhost implements sender {
             }
 
             // 模拟丢包
-            if (nextSeq % 25 == 0) { // 序号是5的倍数的包都被丢掉, 丢包率0.2
+            if (nextSeq % 5 == 0) { // 序号是5的倍数的包都被丢掉, 丢包率0.2
                 ;
             }
             else {

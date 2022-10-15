@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.net.InetAddress;
 
 public interface sender {
-    public void timeOut() throws IOException;
-
     public void sendData() throws IOException;
 
     public void recvACk() throws IOException;
