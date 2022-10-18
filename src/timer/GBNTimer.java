@@ -29,7 +29,7 @@ public class GBNTimer extends Thread{
                         System.out.println(host.getHostName() + "等待ACK超时");
                         host.timeOut();
                     }
-                    timerMoudle.setTime(0);
+                    //timerMoudle.setTime(0);
 
                 } catch (Exception e) {
                 }

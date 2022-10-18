@@ -32,7 +32,7 @@ public class SRTimer extends Thread{
                             host.timeOut(getSeq());
                         }
                     }
-                    timerMoudle.setTime(0);
+                    //timerMoudle.setTime(0);
 
                 } catch (Exception e) {
                 }

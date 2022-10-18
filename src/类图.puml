@@ -1,0 +1,72 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class myhost
+interface receiver{
+void sendACK(int ack) throws IOException;
+int recvData() throws IOException;
+}
+interface sender{
+void sendData() throws IOException;
+void recvACk() throws IOException;
+void setDestPort(int destPort);
+void setDestAddress(InetAddress destAddress);
+}
+
+class gbn_sender {
+- final int N; // 窗口大小
+- final int TimeLimit; // 超时时间
+- final int Seq_num; // 序号空间大小
+- final int chunk_num; // 要发送的分组个数
+# InetAddress destAddress;
+# int destPort = 10240;
+# int base;
+# int nextSeq;
+# int sent_num;
+# int lastACK;
+- final moudle timerMoudle
+- final GBNTimer timer
+- final String str;
++ gbn_sender() throws SocketException
++ void send() throws IOException
++ void timeOut() throws IOException
++ void sendData() throws IOException
++ void recvACK() throws IOException
++ void setDestPort(int destPort)
++ void setDEstAddress(InetAddress destAddress)
+}
+
+class gbn_receiver{
+- final int N; // 窗口大小
+- final int Seq_num; // 序号空间大小
+# int expSeq;
+# InetAddress retAddress;
+# int retPort;
+# boolean flag;
++ gbn_receiver() throws SocketException
++ void recv() throws IOException
++ int recvData() throws IOException
++ void sendACK(int ack) throws IOException
+}
+
+class GBNTimer {
+- moudle timerMoudle;
+- gbn_sender host;
++ GBNTimer(moudle timerMoudle, gbn_sender host)
++ void run()
+}
+
+class moudle{
+- volatile int time;
++ synchronized int getTime()
++ synchronized void setTime(int time)
+}
+
+gbn_sender --|> myhost :继承
+gbn_sender ..|> sender :实现
+gbn_receiver --|> myhost :继承
+gbn_receiver ..|> receiver :实现
+gbn_sender <-> GBNTimer : 关联
+GBNTimer->moudle: 关联
+
+@enduml
